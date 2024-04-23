@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+format:
+  html:
+    toc: true
+    code-fold: true
+    number-sections: true
+
+website:
+  title: "PREACT: Data Compliance and Quality"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.html
+    right:
+      - text: "Notebook"
+        href: Insight_PREACT.html
+
+
+
