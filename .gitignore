@@ -1,5 +1,8 @@
 *.csv
 *.pkl
 *.json
+Passive_Data_Preprocess.ipynb
 __pycache__
 .ipynb_checkpoints
+
+/.quarto/
