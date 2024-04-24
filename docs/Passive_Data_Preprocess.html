@@ -212,8 +212,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Patients can enroll for therapy-accompanying ambulatory assessment. They are provided with a customized study app and a state-of-the-art smartwatch collecting passive data like GPS and heart rate for up to 365 days. In parallel, three 14-day EMA phases (pre-, mid- and post-therapy) cover transdiagnostic (i.e.&nbsp;emotion regulation), contextual and therapy-related aspects.</p>
 <p>Here, we present first results on data compliance and quality for the passive sensing data as well as EMA assessments.</p>
 <div id="cell-3" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
@@ -243,11 +241,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>df_redcap_zert <span class="op">=</span> pd.read_csv(datapath <span class="op">+</span> <span class="ss">f"ZERTIFIZIERUNGFOR518_DATA_</span><span class="sc">{</span>today<span class="sc">}</span><span class="ss">.csv"</span>)</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>df_redcap <span class="op">=</span> pd.read_csv(datapath <span class="op">+</span> <span class="ss">f"FOR5187_DATA_</span><span class="sc">{</span>today<span class="sc">}</span><span class="ss">.csv"</span>)</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>df_monitoring <span class="op">=</span> pd.read_csv(<span class="ss">f"https://docs.google.com/spreadsheets/d/</span><span class="sc">{</span>proj_sheet<span class="sc">}</span><span class="ss">/export?format=csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-4" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_redcap_kosten <span class="op">=</span> pd.read_csv(datapath <span class="op">+</span> <span class="st">"Kosten_2024-04-15.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_redcap_zert_kosten <span class="op">=</span> pd.read_csv(datapath <span class="op">+</span> <span class="st">"ZertKosten_2024-04-15.csv"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -255,17 +250,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df_redcap_zert_kosten <span class="op">=</span> df_redcap_zert_kosten[[<span class="st">'for_id'</span>,<span class="st">'costs_ema_min'</span>, <span class="st">'costs_ema_burden'</span>, <span class="st">'costs_ema_text'</span>]]</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df_redcap_kosten <span class="op">=</span> pd.concat([df_redcap_kosten, df_redcap_zert_kosten],ignore_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-5" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_redcap_kosten.dropna(subset<span class="op">=</span> <span class="st">"costs_ema_burden"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-6" class="cell" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bsi_scales <span class="op">=</span> {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bsi_somatization'</span>: [<span class="st">'bsi_2'</span>, <span class="st">'bsi_7'</span>, <span class="st">'bsi_23'</span>, <span class="st">'bsi_29'</span>, <span class="st">'bsi_30'</span>, <span class="st">'bsi_33'</span>, <span class="st">'bsi_37'</span>],</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bsi_compulsivity'</span>: [<span class="st">'bsi_5'</span>, <span class="st">'bsi_15'</span>, <span class="st">'bsi_26'</span>, <span class="st">'bsi_27'</span>, <span class="st">'bsi_32'</span>, <span class="st">'bsi_36'</span>],</span>
@@ -287,30 +276,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sum the specified columns and create a new column for each scale</span></span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        df_redcap_zert[scale] <span class="op">=</span> df_redcap_zert[columns].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-7" class="cell" data-execution_count="5">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bsi_columns <span class="op">=</span> [<span class="ss">f'bsi_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">54</span>)]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_redcap_zert[<span class="st">'bsi_gs'</span>] <span class="op">=</span> df_redcap_zert[bsi_columns].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_redcap_zert[<span class="st">'bsi_gsi'</span>] <span class="op">=</span> df_redcap_zert[<span class="st">"bsi_gs"</span>]<span class="op">/</span><span class="dv">53</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-8" class="cell" data-execution_count="6">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_redcap_zert <span class="op">=</span> df_redcap_zert[[<span class="st">'for_id'</span>, <span class="st">'ema_start_date'</span>,<span class="st">'ema_smartphone'</span>, <span class="st">'ema_special_event'</span>, <span class="st">'age'</span>, <span class="st">'gender'</span>, <span class="st">'marital_status'</span>, <span class="st">'partnership'</span>, <span class="st">'graduation'</span>,<span class="st">'profession'</span>,<span class="st">'years_of_education'</span>,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="st">'employability'</span>, <span class="st">'scid_cv_date'</span>,<span class="st">'ses'</span>, <span class="st">'somatic_problems'</span>,<span class="st">'scid_cv_prim_cat'</span>, <span class="st">'bsi_date'</span>,<span class="st">'bsi_somatization'</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'bsi_compulsivity'</span>,<span class="st">'bsi_insecurity'</span>,<span class="st">'bsi_depression'</span>,<span class="st">'bsi_anxiety'</span>,<span class="st">'bsi_aggression'</span>,<span class="st">'bsi_phobia'</span>,<span class="st">'bsi_paranoia'</span>,</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'bsi_psychotizism'</span>,<span class="st">'bsi_additional'</span>,<span class="st">'bsi_gs'</span>,<span class="st">'bsi_gsi'</span>, <span class="st">'prior_treatment'</span>]] <span class="co">#ema_wear_exp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <section id="redcap-data" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="redcap-data"><span class="header-section-number">3.1</span> Redcap data</h3>
 <div id="cell-10" class="cell" data-execution_count="7">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_redcap <span class="op">=</span> pd.concat([df_redcap, df_redcap_zert],ignore_index<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df_redcap <span class="op">=</span> df_redcap[[<span class="st">'for_id'</span>, <span class="st">'ema_start_date'</span>,<span class="st">'ema_smartphone'</span>,</span>
@@ -318,17 +298,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'employability'</span>,<span class="st">'ses'</span>, <span class="st">'somatic_problems'</span>,<span class="st">'scid_cv_prim_cat'</span>,<span class="st">'bsi_somatization'</span>, <span class="st">'prior_treatment'</span>,</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a> <span class="st">'bsi_compulsivity'</span>,<span class="st">'bsi_insecurity'</span>,<span class="st">'bsi_depression'</span>,<span class="st">'bsi_anxiety'</span>,<span class="st">'bsi_aggression'</span>,<span class="st">'bsi_phobia'</span>,<span class="st">'bsi_paranoia'</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a> <span class="st">'bsi_psychotizism'</span>,<span class="st">'bsi_additional'</span>,<span class="st">'bsi_gs'</span>,<span class="st">'bsi_gsi'</span>]] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-11" class="cell" data-execution_count="8">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_redcap[<span class="st">"ema_start_date"</span>] <span class="op">=</span> pd.to_datetime(df_redcap[<span class="st">"ema_start_date"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-12" class="cell" data-execution_count="9">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gender_mapping <span class="op">=</span> {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">'male'</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">'female'</span>,</span>
@@ -398,11 +372,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">'usual'</span>,</span>
 <span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">'special event'</span></span>
 <span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-13" class="cell" data-execution_count="10">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply mappings</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_redcap[<span class="st">'gender_description'</span>] <span class="op">=</span> df_redcap[<span class="st">'gender'</span>].<span class="bu">map</span>(gender_mapping)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df_redcap[<span class="st">'scid_cv_description'</span>] <span class="op">=</span> df_redcap[<span class="st">'scid_cv_prim_cat'</span>].<span class="bu">map</span>(scid_cv_cat_mapping)</span>
@@ -413,54 +384,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>df_redcap[<span class="st">'prior_treatment_description'</span>] <span class="op">=</span> df_redcap[<span class="st">'prior_treatment'</span>].<span class="bu">map</span>(prior_treatment_mapping)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>df_redcap[<span class="st">'ema_smartphone_description'</span>] <span class="op">=</span> df_redcap[<span class="st">'ema_smartphone'</span>].<span class="bu">map</span>(ema_smartphone_mapping)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>df_redcap[<span class="st">'ema_special_event_description'</span>] <span class="op">=</span> df_redcap[<span class="st">'ema_special_event'</span>].<span class="bu">map</span>(ema_special_event_mapping)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="monitoring-data" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="monitoring-data"><span class="header-section-number">3.2</span> Monitoring data</h3>
 <div id="cell-15" class="cell" data-execution_count="11">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_monitoring <span class="op">=</span> df_monitoring.copy()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_monitoring.rename(columns <span class="op">=</span> {<span class="st">"Pseudonym"</span>: <span class="st">"customer"</span>, <span class="st">"EMA_ID"</span>: <span class="st">"ema_id"</span>, <span class="st">"Status"</span>: <span class="st">"status"</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Studienversion"</span>:<span class="st">"study_version"</span>, <span class="st">"FOR_ID"</span>:<span class="st">"for_id"</span>, </span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Start EMA Baseline"</span>: <span class="st">"ema_base_start"</span>, <span class="st">"Ende EMA Baseline"</span>: <span class="st">"ema_base_end"</span>, </span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Freischaltung/ Start EMA T20"</span>: <span class="st">"ema_t20_start"</span>,<span class="st">"Ende EMA T20"</span>:<span class="st">"ema_t20_end"</span>, </span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Termin 1. Gespräch"</span>: <span class="st">"first_call_date"</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-16" class="cell" data-execution_count="12">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_monitoring[<span class="st">"customer"</span>] <span class="op">=</span> df_monitoring[<span class="st">"customer"</span>].<span class="bu">str</span>[:<span class="dv">4</span>]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_monitoring <span class="op">=</span> df_monitoring[[<span class="st">"customer"</span>, <span class="st">"ema_id"</span>, <span class="st">"study_version"</span>, <span class="st">"for_id"</span>, <span class="st">"status"</span>]]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df_monitoring[<span class="st">"for_id"</span>] <span class="op">=</span> df_monitoring.for_id.<span class="bu">str</span>.strip()</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-17" class="cell" data-execution_count="13">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_monitoring <span class="op">=</span> pd.merge(df_monitoring, df_redcap, on<span class="op">=</span><span class="st">"for_id"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df_monitoring <span class="op">=</span> pd.merge(df_monitoring, df_redcap_kosten, on<span class="op">=</span><span class="st">"for_id"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="passive-data" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="passive-data"><span class="header-section-number">3.3</span> Passive data</h3>
 <div id="cell-19" class="cell" data-execution_count="14">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_complete.timezoneOffset.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>array([  60.,   nan,  420.,  120.,  180.,    0.,  480., -300., -360.,
        -420.,  330., -240.,  360.,  -60.,  540., -180.])</code></pre>
 </div>
 </div>
 <div id="cell-20" class="cell" data-execution_count="15">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">### 1.1 Import epoch level passive + GPS data</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df_complete[<span class="st">"customer"</span>] <span class="op">=</span> df_complete.customer.<span class="bu">str</span>.split(<span class="st">"@"</span>).<span class="bu">str</span>.get(<span class="dv">0</span>)</span>
@@ -487,20 +443,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>df_complete[<span class="st">"startTimestamp_hour"</span>] <span class="op">=</span> df_complete.startTimestamp.dt.hour</span>
 <span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>df_complete[<span class="st">"createdAt_hour"</span>] <span class="op">=</span> df_complete.startTimestamp.dt.hour</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-21" class="cell" data-execution_count="16">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_loc_complete <span class="op">=</span> df_complete[df_complete.<span class="bu">type</span>.isin([<span class="st">"Latitude"</span>, <span class="st">"Longitude"</span>])]</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_loc_complete <span class="op">=</span> df_loc_complete[[<span class="st">"customer"</span>, <span class="st">"startTimestamp"</span>, <span class="st">"type"</span>, <span class="st">"doubleValue"</span>, </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'createdAt'</span>, <span class="st">'startTimestamp_day'</span>, <span class="st">'createdAt_day'</span>,</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'startTimestamp_hour'</span>, <span class="st">'createdAt_hour'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-22" class="cell" data-execution_count="17">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the earliest 'startTimestamp_day' for each customer</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>earliest_timestamp_per_customer <span class="op">=</span> df_loc_complete.groupby(<span class="st">'customer'</span>)[<span class="st">'startTimestamp_day'</span>].<span class="bu">min</span>()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -509,11 +459,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate 'relative_day' as the difference in days from the earliest day</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>df_loc_complete[<span class="st">'relative_day'</span>] <span class="op">=</span> (df_loc_complete[<span class="st">'startTimestamp_day'</span>] <span class="op">-</span> df_loc_complete[<span class="st">'earliest_start_day'</span>]).dt.days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-23" class="cell" data-execution_count="18">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>today <span class="op">=</span> pd.to_datetime(<span class="st">'today'</span>).normalize()</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df_loc_complete[<span class="st">'potential_days_coverage'</span>] <span class="op">=</span> (today <span class="op">-</span> df_loc_complete[<span class="st">'earliest_start_day'</span>]).dt.days</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -524,20 +471,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>df_loc_complete[<span class="st">'actual_days_with_data'</span>] <span class="op">=</span> df_loc_complete[<span class="st">'customer'</span>].<span class="bu">map</span>(actual_days)</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>df_loc_complete[<span class="st">'data_coverage_per'</span>] <span class="op">=</span> (df_loc_complete[<span class="st">'actual_days_with_data'</span>] <span class="op">/</span> df_loc_complete[<span class="st">'potential_days_coverage'</span>]) <span class="op">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-24" class="cell" data-execution_count="19">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_pd_complete <span class="op">=</span> df_complete[<span class="op">~</span>df_complete.<span class="bu">type</span>.isin([<span class="st">"Latitude"</span>, <span class="st">"Longitude"</span>])]</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df_pd_complete <span class="op">=</span> df_pd_complete[[<span class="st">"customer"</span>, <span class="st">"startTimestamp"</span>, <span class="st">"type"</span>, <span class="st">"doubleValue"</span>, </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"timezoneOffset"</span>, <span class="st">'createdAt'</span>, <span class="st">'startTimestamp_day'</span>, <span class="st">'createdAt_day'</span>,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'startTimestamp_hour'</span>, <span class="st">'createdAt_hour'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-25" class="cell" data-execution_count="20">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the earliest 'startTimestamp_day' for each customer</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>earliest_timestamp_per_customer <span class="op">=</span> df_pd_complete.groupby(<span class="st">'customer'</span>)[<span class="st">'startTimestamp_day'</span>].<span class="bu">min</span>()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -546,11 +487,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate 'relative_day' as the difference in days from the earliest day</span></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>df_pd_complete[<span class="st">'relative_day'</span>] <span class="op">=</span> (df_pd_complete[<span class="st">'startTimestamp_day'</span>] <span class="op">-</span> df_pd_complete[<span class="st">'earliest_start_day'</span>]).dt.days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-26" class="cell" data-execution_count="21">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_pd_complete[<span class="st">'potential_days_coverage'</span>] <span class="op">=</span> (today <span class="op">-</span> df_pd_complete[<span class="st">'earliest_start_day'</span>]).dt.days</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Count unique days with data for each customer</span></span>
@@ -560,11 +498,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>df_pd_complete[<span class="st">'actual_days_with_data'</span>] <span class="op">=</span> df_pd_complete[<span class="st">'customer'</span>].<span class="bu">map</span>(actual_days)</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>df_pd_complete[<span class="st">'data_coverage_per'</span>] <span class="op">=</span> (df_pd_complete[<span class="st">'actual_days_with_data'</span>] <span class="op">/</span> df_pd_complete[<span class="st">'potential_days_coverage'</span>]) <span class="op">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-27" class="cell" data-execution_count="22">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>today <span class="op">=</span> <span class="st">"22042024"</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(datapath <span class="op">+</span> <span class="ss">f'/passive_data_</span><span class="sc">{</span>today<span class="sc">}</span><span class="ss">.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
@@ -572,14 +507,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(datapath <span class="op">+</span> <span class="ss">f'/gps_data_</span><span class="sc">{</span>today<span class="sc">}</span><span class="ss">.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    pickle.dump(df_loc_complete, <span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="ema-data" class="level3" data-number="3.4">
 <h3 data-number="3.4" class="anchored" data-anchor-id="ema-data"><span class="header-section-number">3.4</span> EMA data</h3>
 <div id="cell-29" class="cell" data-execution_count="23">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>session <span class="op">=</span> pd.read_csv(datapath1 <span class="op">+</span> <span class="st">"questionnaireSession.csv"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -589,28 +521,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>session[<span class="st">"quest_create"</span>] <span class="op">=</span> (pd.to_datetime(session[<span class="st">"quest_create"</span>],unit<span class="op">=</span><span class="st">'ms'</span>))</span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>session[<span class="st">"quest_complete"</span>] <span class="op">=</span> (pd.to_datetime(session[<span class="st">"quest_complete"</span>],unit<span class="op">=</span><span class="st">'ms'</span>))</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>df_sess <span class="op">=</span> session[[<span class="st">"customer"</span>, <span class="st">"sessionRun"</span>, <span class="st">"quest_create"</span>, <span class="st">"quest_complete"</span>, <span class="st">"study"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-30" class="cell" data-execution_count="24">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_sess <span class="op">=</span> pd.merge(df_sess, df_monitoring, on <span class="op">=</span> <span class="st">"customer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-31" class="cell" data-execution_count="25">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df_sess <span class="op">=</span> df_sess.copy()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df_sess[<span class="st">"quest_create_day"</span>] <span class="op">=</span> df_sess.quest_create.dt.normalize()</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>df_sess[<span class="st">"quest_complete_day"</span>] <span class="op">=</span> df_sess.quest_complete.dt.normalize()</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>df_sess[<span class="st">"quest_create_hour"</span>] <span class="op">=</span> df_sess.quest_create.dt.hour</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>df_sess[<span class="st">"quest_complete_hour"</span>] <span class="op">=</span> df_sess.quest_complete.dt.hour</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-32" class="cell" data-execution_count="26">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count number of completed EMA beeps in first phase</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_sess1 <span class="op">=</span> df_sess.loc[df_sess.study.isin([<span class="dv">24</span>,<span class="dv">25</span>])]</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>df_sess1 <span class="op">=</span> df_sess1.copy()</span>
@@ -632,40 +555,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>sess_count1 <span class="op">=</span> df_sess1.dropna(subset<span class="op">=</span>[<span class="st">"quest_complete"</span>]).groupby(<span class="st">"customer"</span>)[<span class="st">"quest_complete"</span>].size()<span class="op">\</span></span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>.reset_index()</span>
 <span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>sess_count1 <span class="op">=</span> sess_count1.rename(columns <span class="op">=</span> {<span class="st">"quest_complete"</span>:<span class="st">"nquest_EMA1"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-33" class="cell" data-execution_count="27">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>daily_counts <span class="op">=</span> df_sess1.groupby([<span class="st">'customer'</span>, <span class="st">'quest_complete_day'</span>,<span class="st">'quest_complete_relative1'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'daily_entries_sum'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-34" class="cell" data-execution_count="28">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count number of completed EMA beeps in second phase</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df_sess2 <span class="op">=</span> df_sess.loc[df_sess.study.isin([<span class="dv">33</span>,<span class="dv">34</span>])]</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>sess_count2 <span class="op">=</span> df_sess2.dropna(subset<span class="op">=</span>[<span class="st">"quest_complete"</span>]).groupby(<span class="st">"customer"</span>)[<span class="st">"quest_complete"</span>].size()<span class="op">\</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>.reset_index()</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>sess_count2 <span class="op">=</span> sess_count2.rename(columns <span class="op">=</span> {<span class="st">"quest_complete"</span>:<span class="st">"nquest_EMA2"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-35" class="cell" data-execution_count="29">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df_sess <span class="op">=</span> df_sess.merge(sess_count1, on<span class="op">=</span>[<span class="st">'customer'</span>], how<span class="op">=</span><span class="st">'left'</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df_sess <span class="op">=</span> df_sess.merge(sess_count2, on<span class="op">=</span>[<span class="st">'customer'</span>], how<span class="op">=</span><span class="st">'left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-36" class="cell" data-execution_count="30">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df_sess <span class="op">=</span> df_sess.merge(daily_counts, on<span class="op">=</span>[<span class="st">'customer'</span>, <span class="st">"quest_complete_day"</span>], how<span class="op">=</span><span class="st">'left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <div id="cell-37" class="cell" data-execution_count="31">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>filtered_df_sess <span class="op">=</span> df_sess[(df_sess[<span class="st">'quest_complete_relative1'</span>] <span class="op">&gt;=</span> <span class="dv">16</span>) <span class="op">|</span> (df_sess[<span class="st">'quest_complete_relative1'</span>] <span class="op">&lt;</span> <span class="dv">0</span>)]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -677,7 +585,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the rows with relevant columns</span></span>
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>max_quest_complete_relative1[[<span class="st">'customer'</span>, <span class="st">'for_id'</span>, <span class="st">'quest_complete_relative1'</span>, <span class="st">'quest_complete_day'</span>, <span class="st">'quest_create_day'</span>,<span class="st">'ema_start_date'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <div>
 <div>
@@ -776,8 +683,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="cell-38" class="cell" data-execution_count="32">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>today <span class="op">=</span> <span class="st">"22042024"</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(datapath <span class="op">+</span> <span class="ss">f'/ema_data_</span><span class="sc">{</span>today<span class="sc">}</span><span class="ss">.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
@@ -785,7 +690,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(datapath <span class="op">+</span> <span class="ss">f'/monitoring_data_</span><span class="sc">{</span>today<span class="sc">}</span><span class="ss">.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    pickle.dump(df_monitoring, <span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 
 
